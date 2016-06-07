@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * SystemManager() object contains methods that return USER system information such as 
+ * BrowserName, BrowserVersion and OSPlatform
+ */
 class SystemManager{
 
 	public $browser 			= "";

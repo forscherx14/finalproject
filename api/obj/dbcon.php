@@ -1,4 +1,8 @@
 <?php
+	/**
+	 * dbCon() object is in charge of database requests. SELECT, INSERT and UPDATE
+	 * use the dbCon() methods to send or get data to and from database.
+	 */
 	class dbCon{
 		//Update these to match your database
 		private $db;
@@ -27,7 +31,6 @@
 		}
 
 		/**
-<<<<<<< HEAD
 		 * pullRecord() gets all the records in a table
 		 * $tID 		is the database table name
 		 */

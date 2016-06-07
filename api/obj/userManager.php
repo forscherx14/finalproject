@@ -1,8 +1,7 @@
 <?php
-
-//User Manager Handles User Management tasks such as Registration, Password Resets, Login, etc.
-//
-include_once("dbCon.php");
+/**
+ * User Manager Handles User Management tasks such as Registration, Password Resets, Login.
+ */
 
 class UserManager{
 	private $dbCon 					= false;

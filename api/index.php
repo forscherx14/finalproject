@@ -1,13 +1,6 @@
 <?php
-<<<<<<< HEAD
-	include("obj/dbCon.php");
-=======
-	include_once("obj/dbCon.php");
-	include("obj/userManager.php");
-	include("utilities/PasswordHash.php");
-
-	$db 	 = new dbCon();
-	$userMgr = new UserManager();
+	//config contains all that is needed to configure the back end.
+	include_once("config/config.php");
 
 	$result 	= array();
 
@@ -27,5 +20,5 @@
 	}
 
 	echo json_encode( $result );
->>>>>>> be3406054c2e2eed3299b7dd7e6479d4297db193
+
 ?>
