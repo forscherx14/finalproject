@@ -4,24 +4,74 @@
  */
 
 class UserManager{
-	private $dbCon 					= false;
-	private $db 					= false;
-	private $sysMgr 				= false;
-	private $data 					= false;
+	 private $dbCon 					= false;
+	 private $db 					= false;
+	 private $sysMgr 				= false;
+	 private $data 					= false;
+	 private $sessionID 				= "";
+	 private $sessionTimeOut 		= 5400; // 1.5 hrs
+
 
 	public function __construct(){
 		$this->dbCon = new dbCon();
+		$this->sysMgr = new SystemManager();
 	}
 
 //////////////////PRIVATE METHODS/////////////////////////
+	private function initiateSession( $userID ){
+		// server should keep session data
+		ini_set( 'session.gc_maxlifetime', $this->sessionTimeOut );
+		// each client should remember their session id
+		session_set_cookie_params( $this->sessionTimeOut );
+		 session_start();
+		 session_regenerate_id();
 
-	
-	private function initiateSession(){
+		//ASSIGN USER VARIABLES
+		$this->sessionID 				= session_id();
+		//CREATE SESSION COOKIES
+		$_SESSION[ 'LAST_ACTIVITY' ] 	= time();
+		
+		 $_SESSION[ 'userID' ] 			= $this->userID;
+		 $_SESSION[ 'sessionID' ] 		= $this->sessionID;
+		 $_SESSION[ 'browserName' ] 	= $this->sysMgr->getBrowserName();
+		 $_SESSION[ 'browserVersion' ]  = $this->sysMgr->getBrowserVersion();
+		 $_SESSION[ 'platform' ] 		= $this->sysMgr->getPlatform();
+
+		// //CLOSE PREVIOUS SESSIONS
+		 $u 	= $this->dbCon->updateRecord( 
+										"user_session", 
+										array( "active"), 	//fieldToUpdate
+										array( 0 ),  			//fieldValue
+										array( "userID" ), 		// Where
+										array( $userID )	// Values of Where
+										);
+		// //RECORD NEW SESSION
+		$q = $this->dbCon->insertRecord( 
+								"user_session", 
+								array("userID", "sessionID", "active", "browsername", "browserversion", "osplatform" ), 
+								array( $userID, $this->sessionID, 1, $_SESSION[ 'browserName' ], $_SESSION[ 'browserVersion' ], $_SESSION[ 'platform' ] ) 
+								);
+		
+		return $userID;
 
 	}
 
-	private function terminateSession(){
+	private function terminateSession( $token ){
+		//logout procedures go here
+		if( $sesID != session_id() ){ $sesID = session_id(); }
 
+		$u 	= $this->dbCon->updateRecord( 
+											"user_session", 
+											array( "sessionOpen"), 	//fieldToUpdate
+											array( 0 ),  			//fieldValue
+											array( "sesID" ), 		// Where
+											array( $sesID )			// Values of Where
+											);
+		//Unset and Destroy Session
+		session_unset();
+		session_destroy();
+		$res['status'] = 'session terminated';
+		return $res;
 	}
 
 	private function verifyUserToken( $token ){
@@ -60,19 +110,31 @@ class UserManager{
 /////////////////////PUBLIC METHODS //////////////////////////////////
 
 	public function me(){
-
+		return $_SESSION['sessionID'];
 	}
 
-	public function registerUser( $username, $pass){
-		//check is user exists in user table
-		$sql = $this->dbCon->pullRecord("users", array("username"=>$username));
+	public function registerUser( $username, $pass ){
+		 $result = array();
+		//check is user exists in user table - this returns an array
+		$sql = $this->dbCon->pullRecordWithParameters("users", array("username"=>$username));
 		//if the user exists then send error back UI
+		//hint: use count() to check the lenght of array
+		if( count($sql) > 0 ){
+			$result['status'] 	= "error";
+			$result['details'] 	= "User already exists in database";
+		}else{
+			//if user doesn't exist create record in user table
+			$newUserID = $this->dbCon->insertRecord( "users",
+										array("username", "auth", "verificationToken", "verified"),
+										array( $username, create_hash($pass), createToken(), 0 )
+										);
+			//initiate session
+			$result['status'] 	= "success";
+			$result['token'] 	= $this->me();
+			$result['details']  = "User automatically logged in";
+		}
 
-		//if user doesn't exist create record in user table
-
-		//initiate session
-
-		return ":p";
+		return 	$result;
 	}
 
 	public function loginUser( ){
@@ -80,7 +142,7 @@ class UserManager{
 	}
 
 	public function logoutUser( ){
-
+		$this->terminateSession( $_SESSION['sessionID'] );
 	}
 
 	public function getUserMetaData(){

@@ -8,22 +8,27 @@
 	session_start();
 
 	//Include Objects and other methods source code
-	include_once("utilities/utilities.php");
-	include_once("obj/dbCon.php");
-	include_once("obj/SystemManager.php");
-	include_once("obj/UserManager.php");
+	 include_once("utilities/utilities.php");
+	 include_once("obj/dbCon.php");
+	 include_once("obj/SystemManager.php");
+	 include_once("obj/UserManager.php");
 
-	//Get all DATA $_POST, $_GET, $_REQUEST via file_get_contents()
-	$postdata 		= file_get_contents( "php://input" );
-	//Encode incoming data as a JSON object
-	$requestdata	= json_decode( $postdata );
-	//Grab the data Array from JSON
-	$request 		= $requestdata->data;
-	//Grab the dataSource signal from JSON
-	$dataSource	= $requestdata->src;
+	// //Capture ALL POST data and put into $POSTPARAMS array
+	 if(!empty($_POST)){
+	 	foreach ($_POST as $key => $value){
+    		$POSTPARAMS[ $key ] = $value;      
+     	} 
+	}
+	// //View all captured POST data
+	print_r($POSTPARAMS);
 
-	//Instantiate Back-end Objects
+	// //Grab the data Array from JSON
+	$request 		= $POSTPARAMS[ 'data' ];
+	// //Grab the dataSource signal from JSON
+    $dataSource		= $POSTPARAMS[ 'dataSource' ];
+
+	// //Instantiate Back-end Objects
 	$dbCon 			= new dbCon();
 	$sysMgr 		= new SystemManager();
-	$userManager 	= new UserManager();
+	$userMgr 		= new UserManager();
 ?>

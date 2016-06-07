@@ -6,9 +6,9 @@
 	class dbCon{
 		//Update these to match your database
 		private $db;
-		private $dbName 	= '';
+		private $dbName 	= 'SANDBOX';
 		private $username 	= 'root';
-		private $password	= '';
+		private $password	= 'root';
 		private $host 		= 'localhost';
 
 
@@ -67,6 +67,7 @@
 		 * $table 		database table name
 		 * $fields 		database table field names in an array
 		 * $values 		database table field values in an array
+		 * RETURN 		this returns the record ID of the new user
 		 */
 		public function insertRecord( $table, $fields, $values ){
 

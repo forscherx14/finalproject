@@ -1,3 +1,6 @@
+<?php 
+ session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +18,12 @@
 	<!-- ADD AWESOME THINGS HERE -->
 	 <?php
 	 	//echo "Hello World!";
-		include("partials/registration.php");
+	 if(isset($_SESSION['sessionID'])){
+	 	echo "logged in";
+	 }else{
+	 	include("partials/registration.php");
+	 }
+		
 	 ?>
 
 

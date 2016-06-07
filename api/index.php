@@ -1,24 +1,24 @@
 <?php
-	//config contains all that is needed to configure the back end.
-	include_once("config/config.php");
 
+	/**
+	 * index.php is the API landing page. This page serves as a router.
+	 * Utilizing the $dataSource defined in config.php the API routes the requests.
+	 */
+	include_once("config/config.php");
+	echo ":)";
+	//Array for results data that is sent back to 
+	//front end
 	$result 	= array();
 
-
-
-	$dataSource = $_POST['dataSource'];
-
+	//Switch Routes the request depending on the 
+	//value of dataSource
 	switch( $dataSource ){
 		case "userRegistration":
-			$result['username']  = $_POST['username'];
-			$result['pass1'] 	 = create_hash($_POST['pass1']);
-			$result['pass2'] 	 = $_POST['pass2'];
-
-			$result['status'] 	 = $userMgr->registerUser( $result['username'], $result['pass1']);
-
+			 $result['status'] 	 = $userMgr->registerUser( $request['username'], $request['password']);
 			break;
 	}
 
+	//This sends the result back to JS .done() method
 	echo json_encode( $result );
 
 ?>

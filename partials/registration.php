@@ -1,21 +1,22 @@
-<form id="userRegistrationForm" method="POST" action="api/index.php">
+<h2> Sign up! </h2>
+<form id="userRegistrationForm" method="POST">
 	<table width="100%">
 		<tr>
 			<td width="15%">Username:</td>
 			<td>
-				<input type="text" placeholder="Enter Username" name="username" id="username">
+				<input type="text" value="testtest" placeholder="Enter Username" name="username" id="username">
 			</td>
 		</tr>
 		<tr>
 			<td>Password:</td>
 			<td>
-				<input type="password" placeholder="Enter Password" name="pass1" id="pass1">
+				<input type="password" value="testtest" placeholder="Enter Password" name="pass1" id="pass1">
 			</td>
 		</tr>
 		<tr>
 			<td>Re-Enter:</td>
 			<td>
-				<input type="password" placeholder="Re-Enter Password" name="pass2" id="pass2">
+				<input type="password" value="testtest" placeholder="Re-Enter Password" name="pass2" id="pass2">
 			</td>
 		</tr>
 		<tr>
