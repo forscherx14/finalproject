@@ -161,6 +161,8 @@ class UserManager{
 										array( $username, create_hash($pass), createToken(), 0 )
 										);
 			//initiate session
+			$this->initiateSession($sql[0]['userID']);
+
 			$result['status'] 	= "success";
 			$result['token'] 	= $this->me();
 			$result['details']  = "User automatically logged in";
