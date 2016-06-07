@@ -19,9 +19,10 @@
 	 <?php
 	 	//echo "Hello World!";
 	 if(isset($_SESSION['sessionID'])){
-	 	echo "logged in";
+	 	echo "<a id='logoutLink'>log out</a> | Welcome you are logged in";
 	 }else{
 	 	include("partials/registration.php");
+	 	include("partials/login.php");
 	 }
 		
 	 ?>

@@ -16,6 +16,28 @@ $(document).ready(function(){
 		}
 	} );
 
+	$("#logoutLink").click( function(){
+		var dataSrc = "logout";
+		var data 	= "";
+
+		sendData( dataSrc, data );
+
+	});
+
+	$("#userLogin_btn").click( function(){
+		console.log("logging in");
+		var username 	= $("#login_username").val();
+		var pass1 		= $("#login_pass1").val();
+
+		//Add validation step
+		
+		var dataSrc = "userLogin";
+		var data = { "username": username, "password": pass1 }
+
+			sendData( dataSrc, data );
+	} );
+
+
 
 	function sendData( dataSrc, data ){
 		console.log( "sendData() initialized...")

@@ -5,7 +5,7 @@
 	 * Utilizing the $dataSource defined in config.php the API routes the requests.
 	 */
 	include_once("config/config.php");
-	echo ":)";
+	//echo ":)";
 	//Array for results data that is sent back to 
 	//front end
 	$result 	= array();
@@ -15,6 +15,12 @@
 	switch( $dataSource ){
 		case "userRegistration":
 			 $result['status'] 	 = $userMgr->registerUser( $request['username'], $request['password']);
+			break;
+		case "userLogin":
+			$result['status'] 	 = $userMgr->loginUser( $request['username'], $request['password']);
+			break;
+		case "logout":
+			$result['status'] 	 = $userMgr->logoutUser();
 			break;
 	}
 

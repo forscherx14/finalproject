@@ -8,8 +8,9 @@ class UserManager{
 	 private $db 					= false;
 	 private $sysMgr 				= false;
 	 private $data 					= false;
-	 private $sessionID 				= "";
+	 public $sessionID 				= "";
 	 private $sessionTimeOut 		= 5400; // 1.5 hrs
+	 private $userRecord			= array();
 
 
 	public function __construct(){
@@ -20,9 +21,9 @@ class UserManager{
 //////////////////PRIVATE METHODS/////////////////////////
 	private function initiateSession( $userID ){
 		// server should keep session data
-		ini_set( 'session.gc_maxlifetime', $this->sessionTimeOut );
+		//ini_set( 'session.gc_maxlifetime', $this->sessionTimeOut );
 		// each client should remember their session id
-		session_set_cookie_params( $this->sessionTimeOut );
+		//session_set_cookie_params( $this->sessionTimeOut );
 		 session_start();
 		 session_regenerate_id();
 
@@ -72,6 +73,37 @@ class UserManager{
 		session_destroy();
 		$res['status'] = 'session terminated';
 		return $res;
+	}
+
+	/**
+	 * [getUser description]
+	 * Gets a USER from DB using either ID, userName or verificationCode
+	 * @access private
+	 * @param  [string] $argType
+	 * @param  [string] $userData
+	 * @return [boolean] $exists
+	 */
+	private function getUser( $argType, $userData ){
+		switch( $argType ){
+			case 'userName'			: 
+				$q = $this->dbCon->pullRecordWithParameters( "users", array( "userName" => $userData ));
+				break;
+			case 'userID'			: 
+				$q = $this->dbCon->pullRecordWithParameters( "users", array( "userID" => $userData ) ); 
+				break;
+			case 'verificationCode'	: 
+				$q = $this->dbCon->pullRecordWithParameters( "users", array( "verificationCode" => $userData ) ); 
+				break;
+		}
+
+		$this->userRecord	= $q;
+		$recordCount = count($this->userRecord);
+
+		if( $recordCount  > 0 ){ 
+			$exists = true; 
+		}else{ $exists = false; }
+
+		return $exists;
 	}
 
 	private function verifyUserToken( $token ){
@@ -137,12 +169,32 @@ class UserManager{
 		return 	$result;
 	}
 
-	public function loginUser( ){
+	public function loginUser( $username, $password ){
+		$result = false;
+		$status = "NA";
+		$test = '';
 		
+		if( $this->getUser( "userName", $username ) ){
+
+			$result 			= true;
+			$pwHash 			= $this->userRecord[0]['auth'];
+		
+			//if( validate_password( $password, $pwHash ) ){	
+				//OPEN USER SESSIONS
+				$this->initiateSession( $this->userID );
+				//RETURN 'ME' JSON OBJECT
+				$result['status'] = 'User logged in';
+				$result['token'] = $this->me();
+				//return 
+			//}
+		}else{
+			$result['status'] = "no user";
+		}
+		return $result;
 	}
 
 	public function logoutUser( ){
-		$this->terminateSession( $_SESSION['sessionID'] );
+		return $this->terminateSession( $_SESSION['sessionID'] );
 	}
 
 	public function getUserMetaData(){
