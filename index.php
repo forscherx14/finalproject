@@ -13,7 +13,10 @@
 
 	
 	<!-- ADD AWESOME THINGS HERE -->
-	<? echo "Hello World!"; ?>
+	 <?php
+	 	//echo "Hello World!";
+		include("partials/registration.php");
+	 ?>
 
 
 
