@@ -2,6 +2,7 @@
 
 //User Manager Handles User Management tasks such as Registration, Password Resets, Login, etc.
 //
+include_once("dbCon.php");
 
 class UserManager{
 	private $dbCon 					= false;
@@ -10,17 +11,17 @@ class UserManager{
 	private $data 					= false;
 
 	public function __construct(){
-	
+		$this->dbCon = new dbCon();
 	}
 
 //////////////////PRIVATE METHODS/////////////////////////
 
 	
-	private function initiateSession( ){
+	private function initiateSession(){
 
 	}
 
-	private function terminateSession( ){
+	private function terminateSession(){
 
 	}
 
@@ -63,8 +64,16 @@ class UserManager{
 
 	}
 
-	public function registerUser(){
-		
+	public function registerUser( $username, $pass){
+		//check is user exists in user table
+		$sql = $this->dbCon->pullRecord("users", array("username"=>$username));
+		//if the user exists then send error back UI
+
+		//if user doesn't exist create record in user table
+
+		//initiate session
+
+		return ":p";
 	}
 
 	public function loginUser( ){

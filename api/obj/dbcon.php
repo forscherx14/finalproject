@@ -5,7 +5,7 @@
 		private $dbName 	= '';
 		private $username 	= 'root';
 		private $password	= '';
-		private $host 		= 'localhost'
+		private $host 		= 'localhost';
 
 
 		public function __construct() {
@@ -27,12 +27,13 @@
 		}
 
 		/**
+<<<<<<< HEAD
 		 * pullRecord() gets all the records in a table
 		 * $tID 		is the database table name
 		 */
 		public function pullRecord( $tID ) {
 			$where = array();
-			$result = $this->qry( 'select', $tID, $where );
+			$result = $this->sqlExecute( 'select', $tID, $where );
 			$retArr = array();
 			while ( $row = $result->fetch_assoc() ) {
 				$retArr[] = $row;
@@ -49,7 +50,7 @@
 		public function pullRecordWithParameters( $tID, $where ) {
 
 			if( !isset( $where ) ) $where = array();
-			$result = $this->qry( 'select', $tID, $where );
+			$result = $this->sqlExecute( 'select', $tID, $where );
 			$retArr = array();
 
 			while ($row = $result->fetch_assoc()) {
@@ -131,9 +132,9 @@
 		}
 
 		/**
-		 * qry() private method. This method executes the queries on database
+		 * sqlExecute() private method. This method executes the queries on database
 		 */
-		private function qry($type, $table, $param) {
+		private function sqlExecute($type, $table, $param) {
 			$paramIndex = 0;
 			$result = false;
 			$qryStr = '';

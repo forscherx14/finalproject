@@ -54,7 +54,7 @@ function create_hash($password)
         ));
 }
 
-function validate_password_612($password, $correct_hash)
+function validate_password($password, $correct_hash)
 {
     $params = explode(":", $correct_hash);
     if(count($params) < HASH_SECTIONS)
