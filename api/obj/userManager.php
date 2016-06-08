@@ -11,6 +11,7 @@ class UserManager{
 	 public $sessionID 				= "";
 	 private $sessionTimeOut 		= 5400; // 1.5 hrs
 	 private $userRecord			= array();
+	 private $userID 				= 0;
 
 
 	public function __construct(){
@@ -60,7 +61,7 @@ class UserManager{
 
 	}
 
-	private function terminateSession( $token ){
+	private function terminateSession( $sesID ){
 		//logout procedures go here
 		if( $sesID != session_id() ){ $sesID = session_id(); }
 
@@ -175,18 +176,18 @@ class UserManager{
 	}
 
 	public function loginUser( $username, $password ){
-		$result = false;
+		//$result = false;
 		$status = "NA";
 		$test = '';
 		
 		if( $this->getUser( "userName", $username ) ){
 
-			$result 			= true;
+			//$result 			= true;
 			$pwHash 			= $this->userRecord[0]['auth'];
 		
 			//if( validate_password( $password, $pwHash ) ){	
 				//OPEN USER SESSIONS
-				$this->initiateSession( $this->userID );
+				$this->initiateSession( $this->userRecord[0]['userID'] );
 				//RETURN 'ME' JSON OBJECT
 				$result['status'] = 'User logged in';
 				$result['token'] = $this->me();
