@@ -20,7 +20,7 @@
      	} 
 	}
 	// //View all captured POST data
-	print_r($POSTPARAMS);
+	//print_r($POSTPARAMS);
 
 	// //Grab the data Array from JSON
 	$request 		= $POSTPARAMS[ 'data' ];

@@ -24,7 +24,10 @@ class UserManager{
 		//ini_set( 'session.gc_maxlifetime', $this->sessionTimeOut );
 		// each client should remember their session id
 		//session_set_cookie_params( $this->sessionTimeOut );
-		 session_start();
+		 if( !isset($_SESSION) ){
+		 	 session_start();
+		 }
+		
 		 session_regenerate_id();
 
 		//ASSIGN USER VARIABLES
@@ -32,7 +35,7 @@ class UserManager{
 		//CREATE SESSION COOKIES
 		$_SESSION[ 'LAST_ACTIVITY' ] 	= time();
 		
-		 $_SESSION[ 'userID' ] 			= $this->userID;
+		 $_SESSION[ 'userID' ] 			= $userID;
 		 $_SESSION[ 'sessionID' ] 		= $this->sessionID;
 		 $_SESSION[ 'browserName' ] 	= $this->sysMgr->getBrowserName();
 		 $_SESSION[ 'browserVersion' ]  = $this->sysMgr->getBrowserVersion();
@@ -147,28 +150,28 @@ class UserManager{
 
 	public function registerUser( $username, $pass ){
 		 $result = array();
-		//check is user exists in user table - this returns an array
-		$sql = $this->dbCon->pullRecordWithParameters("users", array("username"=>$username));
-		//if the user exists then send error back UI
-		//hint: use count() to check the lenght of array
+		// //check is user exists in user table - this returns an array
+		 $sql = $this->dbCon->pullRecordWithParameters("users", array("username"=>$username));
+		// //if the user exists then send error back UI
+		// //hint: use count() to check the lenght of array
 		if( count($sql) > 0 ){
-			$result['status'] 	= "error";
-			$result['details'] 	= "User already exists in database";
-		}else{
-			//if user doesn't exist create record in user table
-			$newUserID = $this->dbCon->insertRecord( "users",
-										array("username", "auth", "verificationToken", "verified"),
-										array( $username, create_hash($pass), createToken(), 0 )
-										);
-			//initiate session
-			$this->initiateSession($sql[0]['userID']);
+		 	$result['status'] 	= "error";
+		 	$result['details'] 	= "User already exists in database";
+		 }else{
+		// 	//if user doesn't exist create record in user table
+		 	$newUserID = $this->dbCon->insertRecord( "users",
+		 								array("username", "auth", "verificationToken", "verified"),
+		 								array( $username, create_hash($pass), createToken(), 0 )
+		 								);
+		// 	//initiate session
+		 	$this->initiateSession( $newUserID );
 
-			$result['status'] 	= "success";
-			$result['token'] 	= $this->me();
-			$result['details']  = "User automatically logged in";
-		}
+		 	$result['status'] 	= "success";
+		 	$result['token'] 	= $this->me();
+		 	$result['details']  = "User automatically logged in";
+		 }
 
-		return 	$result;
+		return $result;
 	}
 
 	public function loginUser( $username, $password ){

@@ -6,9 +6,9 @@
 	class dbCon{
 		//Update these to match your database
 		private $db;
-		private $dbName 	= 'SANDBOX';
+		private $dbName 	= 'olsen_app1';
 		private $username 	= 'root';
-		private $password	= 'root';
+		private $password	= '';
 		private $host 		= 'localhost';
 
 
