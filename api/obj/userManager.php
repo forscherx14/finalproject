@@ -111,7 +111,15 @@ class UserManager{
 	}
 
 	private function verifyUserToken( $token ){
+		$result = false;
+		$sql = $this->dbCon->pullRecordWithParameters("user_session", array( "sessionID"=>$token ));
 
+		if( count($sql) > 0 ){
+			$this->getUser( 'userID', $sql[0]['userID']);
+			$result  = true;
+		}
+
+		return $result;
 	}
 
 	private function getUserData( ){
@@ -120,10 +128,14 @@ class UserManager{
 
 	private function setUserData( $field, $value ){
 
-		$res = $this->dbCon->insertRecord("user_meta",
-							array( "fieldKey", "fieldValue" ),
-							array( $field, $value )
-							);
+		if( $this->verifyUserToken( $_SESSION['sessionID']) ){
+			$res = $this->dbCon->insertRecord("user_meta",
+								array( "userID", "fieldKey", "fieldValue" ),
+								array( $this->userRecord[0]['userID'], $field, $value )
+								);
+		}else{
+			$res['status'] = "error";
+		}
 
 		return $res;
 	}
