@@ -22,6 +22,9 @@
 		case "logout":
 			$result['status'] 	 = $userMgr->logoutUser();
 			break;
+		case "userProfile":
+			$result['status'] 	= $userMgr->setUserMetaData( "u_name", $request['u_name']);
+			break;
 	}
 
 	//This sends the result back to JS .done() method

@@ -37,12 +37,27 @@ $(document).ready(function(){
 			sendData( dataSrc, data );
 	} );
 
+	$("#profile_btn").click( function(){
+		console.log("TEST SUCCESS");
+
+		var u_name 	= $("#u_name").val();
+
+		//Preparing the data for back end
+		var dataSrc = "userProfile";
+		//This is a JSON
+		var data 	= { "u_name" : u_name };
+
+			sendData( dataSrc, data );
+
+	});
+
 
 
 	function sendData( dataSrc, data ){
 		console.log( "sendData() initialized...")
 		
 		$.post("api/", { "dataSource": dataSrc, "data": data }).done( function( data ){
+			//This below executes when the server has responded
 			console.log( data )
 		});
 	}

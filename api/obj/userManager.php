@@ -118,8 +118,14 @@ class UserManager{
 
 	}
 
-	private function setUserData( ){
+	private function setUserData( $field, $value ){
 
+		$res = $this->dbCon->insertRecord("user_meta",
+							array( "fieldKey", "fieldValue" ),
+							array( $field, $value )
+							);
+
+		return $res;
 	}
 
 	private function userExists( ){
@@ -207,8 +213,8 @@ class UserManager{
 
 	}
 
-	public function setUserMetaData(){
-
+	public function setUserMetaData( $field, $value ){
+		return $this->setUserData( $field, $value );
 	}
 
 	public function verifyUser(){

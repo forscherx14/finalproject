@@ -20,6 +20,7 @@
 	 	//echo "Hello World!";
 	 if(isset($_SESSION['sessionID'])){
 	 	echo "<a id='logoutLink'>log out</a> | Welcome you are logged in";
+	 	include("partials/profile.php");
 	 }else{
 	 	include("partials/registration.php");
 	 	include("partials/login.php");
