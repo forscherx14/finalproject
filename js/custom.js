@@ -58,8 +58,35 @@ $(document).ready(function(){
 		
 		$.post("api/", { "dataSource": dataSrc, "data": data }).done( function( data ){
 			//This below executes when the server has responded
-			console.log( data )
+			//convert string to json
+			obj = JSON.parse(data);
+
+			switch(obj.status.status){
+
+			 	case "User logged in":
+			 		 loginHandler();
+			 		break;
+
+			 	case "session terminated":
+			 		logoutHandler();
+			 		break;
+			 	case "no user":
+			 		alert("SORRY YOUR USERNAME IS NOT FOUND")
+			 		break;
+
+			}
+			if( obj.status.status == "User logged in"){
+				location.reload();
+			}
 		});
+	}
+
+	function loginHandler(){
+		location.reload();
+	}
+
+	function logoutHandler(){
+		location.reload();
 	}
 
 	function validateUserReg( username, pass1, pass2 ){
