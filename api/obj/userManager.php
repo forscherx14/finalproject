@@ -67,9 +67,9 @@ class UserManager{
 
 		$u 	= $this->dbCon->updateRecord( 
 											"user_session", 
-											array( "sessionOpen"), 	//fieldToUpdate
+											array( "active"), 	//fieldToUpdate
 											array( 0 ),  			//fieldValue
-											array( "sesID" ), 		// Where
+											array( "sessionID" ), 		// Where
 											array( $sesID )			// Values of Where
 											);
 		//Unset and Destroy Session
