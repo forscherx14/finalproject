@@ -24,6 +24,9 @@
 	 }else{
 	 	include("partials/registration.php");
 	 	include("partials/login.php");
+
+	 
+
 	 }
 		
 	 ?>

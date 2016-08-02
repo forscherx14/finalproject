@@ -59,7 +59,11 @@ $(document).ready(function(){
 		$.post("api/", { "dataSource": dataSrc, "data": data }).done( function( data ){
 			//This below executes when the server has responded
 			//convert string to json
+
+			console.log( data )
 			obj = JSON.parse(data);
+
+			console.log( obj )
 
 			switch(obj.status.status){
 
@@ -72,6 +76,9 @@ $(document).ready(function(){
 			 		break;
 			 	case "no user":
 			 		alert("SORRY YOUR USERNAME IS NOT FOUND")
+			 		break;
+			 	case "success":
+			 		location.reload();
 			 		break;
 
 			}
