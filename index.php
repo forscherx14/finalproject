@@ -13,26 +13,18 @@
 	<link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
-
-	
-	<!-- ADD AWESOME THINGS HERE -->
-	 <?php
-	 	//echo "Hello World!";
-	 if(isset($_SESSION['sessionID'])){
-	 	echo "<a id='logoutLink'>log out</a> | Welcome you are logged in";
-	 	include("partials/profile.php");
-	 }else{
-	 	include("partials/registration.php");
-	 	include("partials/login.php");
-
-	 
-
-	 }
-		
-	 ?>
+<h1> Hello World </h1>
+<img src="http://images2.fanpop.com/image/photos/13100000/The-Lion-King-the-lion-king-13191392-800-600.jpg"/>
+<a href="http://www.yahoo.com" target="-blank"> GO TO YAHOO! </a>
+<h2> Hello, How are you ? 
+<img src="https://123hallelujah.files.wordpress.com/2011/05/flying-eagle1.jpg"/>
+<img src="http://1.bp.blogspot.com/-AsXUlj9bd2w/UbnULjrkpqI/AAAAAAAAIa0/g750XHLCviU/s1600/polar+bear+wallpaper+17.jpg"/>
+<img src="http://www.rickbethem.com/images/eagle.jpg"/>
+<h3> Profesor Alvaro, Thank you for your great Help !!!!. </h3>
 
 
-
+<img src="http://www.vanishingtattoo.com/tds/images/tiger/tiger_large/tiger_002.jpg "/>
+<img src="http://freepages.genealogy.rootsweb.ancestry.com/~yehle/GermanCastle.jpg"/>
 	<script src="js/jquery.2.2.4.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/custom.js"></script>
